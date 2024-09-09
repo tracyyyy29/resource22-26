@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/echarts.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		
+	    <div id="app">
+			
+			  <button @click="loadechars">加载echars</button>
+			  
+	    	  <div id="main" style="width: 600px;height:400px;"></div>
+	    </div>
+		
+		<script type="text/javascript">
+			new Vue({
+				el:"#app",  //挂载
+				data:{
+					option:{
+								title: {
+								  text: 'ECharts 入门示例'
+								},
+								tooltip: {},
+								legend: {
+								  data: ['销量']
+								},
+								xAxis: {
+								  data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+								},
+								yAxis: {},
+								series: [
+								  {
+									name: '销量',
+									type: 'bar',
+									data: []
+								  }
+								]
+					      }
+				},
+				methods:{
+					loadechars(){
+						//初始化 echars
+						var myChart = echarts.init(document.getElementById('main'));
+						axios.get("http://127.0.0.1/test2").then(response => {
+							this.option.xAxis.data = response.data.data1
+							this.option.series[0].data=response.data.data2
+							myChart.setOption(this.option)
+						})
+						
+					}
+				}
+			})
+		</script>
+		
+	</body>
+</html>

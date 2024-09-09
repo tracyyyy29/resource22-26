@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css"/>
+		<script src="../bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<nav class="navbar navbar-default" style="background-color: black;">
+				<ul class="nav nav-tabs">
+					<li style="margin-left: 60px;" role="presentation">
+					  <a>欢迎进入股票分析系统</a>	
+					</li>
+				  <li role="presentation"><a href="index.html">首页</a></li>
+				  <li role="presentation" ><a href="#">展示页</a></li>
+				  <li role="presentation"><a href="register.html">注册</a></li>
+				  <li role="presentation" class="active"><a href="login.html">登录</a></li>
+				  <li style="float: right;margin-right: 100px;" role="presentation">
+					 <img src="../img/a.jpg"
+					  class="img-circle" width="50" height="50">  
+				  </li>
+				</ul>
+			</nav>	 
+			
+			
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<!--col-sm-4  中的4是占用整个浏览器窗口12分之4的宽度-->
+					<label for="firstname" class="col-sm-4 control-label">用户名</label>
+					<div class="col-sm-3">
+						<input type="text" v-model="userName" class="form-control" id="firstname1"  placeholder="请输入用户名">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<!--col-sm-4  中的4是占用整个浏览器窗口12分之4的宽度-->
+					<label for="firstname" class="col-sm-4 control-label">密码</label>
+					<div class="col-sm-3">
+						<input type="password" v-model="password"  class="form-control" id="firstname2"  placeholder="请输入密码">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="firstname" class="col-sm-6 control-label">  </label>
+					<div class="col-sm-3">
+						<button  @click="login" type="button" class="btn btn-default">登录</button>
+					</div>
+				</div>
+			</form>
+			
+		</div>
+		
+		<script type="text/javascript">
+			new Vue({
+				el:"#app",
+				data:{
+					userName:"",
+					password:""
+				},
+				methods:{
+					login(){
+						let param = new FormData()
+						param.append("username",this.userName)
+						param.append("password",this.password)
+						axios.post("http://127.0.0.1/login",param)
+						.then(response => {
+							let resultTo = response.data
+							
+							let msg = resultTo.msg
+							
+							if(msg=='登录成功'){
+								let userName = resultTo.value.user_username
+								sessionStorage.setItem("username",userName)  //放到 sessionStorage   放到浏览器会话
+								window.location.href ="./index.html"
+							}else if(msg=='登录失败'){
+								alert("登录失败")
+							}
+						})
+					}
+				}
+			})
+		</script>
+			
+	</body>
+</html>

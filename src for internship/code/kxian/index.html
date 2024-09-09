@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css"/>
+		<script src="../bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script src="../js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<nav class="navbar navbar-default" style="background-color: black;">
+				<ul class="nav nav-tabs">
+					<li style="margin-left: 60px;" role="presentation">
+					  <a>欢迎进入股票分析系统</a>	
+					</li>
+				  <li role="presentation" class="active"><a href="index.html">首页</a></li>
+				  <li role="presentation" ><a href="#">展示页</a></li>
+				  <li role="presentation"><a href="register.html">注册</a></li>
+				  
+				  
+				  
+				  <li role="presentation" v-if="!islogin" ><a href="login.html">登录</a></li>
+				  <li role="presentation" v-if="islogin" ><a>{{username}} </li>
+				  
+				  
+				  <li role="presentation" v-if="islogin" style="margin-top: -18px;"><a @click="logout">退出登录</a></li>
+				  
+				  
+				  
+				  <li style="float: right;margin-right: 100px;" role="presentation">
+					 <img :src="headerurl"
+					  class="img-circle" width="50" height="50">  
+				  </li>
+				</ul>
+			</nav>	 
+			
+			<a href="klineshowdata.html">查看股票数据</a>
+		</div>
+		
+		
+		<script type="text/javascript">
+			new Vue({
+				el:"#app",
+				data:{
+					headerurl:'https://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=%E5%A4%B4%E5%83%8F&step_word=&lid=10625792483855668664&ie=utf-8&in=&cl=2&lm=-1&st=undefined&hd=undefined&latest=undefined&copyright=undefined&cs=4072472313,1499772933&os=4027394630,83978332&simid=4072472313,1499772933&pn=3&rn=1&di=46137345&ln=1670&fr=&fmq=1721351456482_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&is=0,0&istype=0&ist=&jit=&bdtype=11&spn=0&pi=0&gsm=1e&objurl=https%3A%2F%2Fq1.itc.cn%2Fq_70%2Fimages03%2F20240609%2F1c1be14298be4dbe978e55bde6e958b0.jpeg&rpstart=0&rpnum=0&adpicid=0&nojc=undefined&dyTabStr=MCwzLDEsMiw1LDgsNyw2LDQsOQ%3D%3D',
+				    islogin:false,
+					username:null
+				},
+				mounted() {
+					this.init()
+				},
+				methods:{
+					init(){
+						let userName = sessionStorage.getItem("username")
+						if(userName!=null){
+							this.islogin = true
+							this.username = userName
+							this.headerurl = "http://127.0.0.1/"+userName+".jpg"
+						}
+					},
+					logout(){
+						sessionStorage.removeItem("username")
+						window.location.href="./index.html"
+					}
+				}
+			})
+		</script>
+		
+	</body>
+</html>
